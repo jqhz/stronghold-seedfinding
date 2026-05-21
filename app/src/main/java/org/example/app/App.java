@@ -3,19 +3,54 @@
  */
 package org.example.app;
 
-import org.example.list.LinkedList;
+import com.seedfinding.mcbiome.biome.Biomes;
+import com.seedfinding.mcbiome.source.BiomeSource;
+import com.seedfinding.mccore.rand.ChunkRand;
+import com.seedfinding.mccore.rand.seed.WorldSeed;
+import com.seedfinding.mccore.rand.seed.structureSeed;
+import com.seedfinding.mccore.state.Dimension;
+import com.seedfinding.mccore.util.pos.CPos;
+import com.seedfinding.mccore.version.MCVersion;
+import com.seedfinding.mcfeature.structure.Stronghold;
+import com.seedfinding.mcfeature.structure.generator.structure.StrongholdGenerator;
 
-import static org.example.utilities.StringUtils.join;
-import static org.example.utilities.StringUtils.split;
-import static org.example.app.MessageUtils.getMessage;
-
-import org.apache.commons.text.WordUtils;
-
+/*
+Goal: culled strongholds
+*/
+/*
+Requirements:
+- 3 chunk away portal room from starter
+- portal room loops back in itself either horizontally or vertically
+*/
 public class App {
     public static void main(String[] args) {
-        LinkedList tokens;
-        tokens = split(getMessage());
-        String result = join(tokens);
-        System.out.println(WordUtils.capitalize(result));
+        MCVersion version = MCVersion.v1_16_1;
+        System.out.println(version);
+        ChunkRand rand = new ChunkRand();
+        Stronghold stronghold = new Stronghold(version);
+        StrongholdGenerator strongholdGenerator = new StrongholdGenerator(version);
+
+        for (long structureSeed = 1; structureSeed < 100_000_000L; structureSeed++) {
+            CPos[] firstStart = stronghold.getStarts(source, 128, rand);
+            Cpos StrongPos = firstStart[0];
+
+            int x1 = StrongPos.getX();
+            int z1 = StrongPos.getZ();
+
+            System.out.println(x1 * 16);
+            System.out.println(z1 * 16);
+            StrongholdGenerator.generate(null, strongholdPos);
+            int[] coords = strongholdGenerator.getInRegion(rand, 0, 0);
+                System.out.println("Found seed: " + structureSeed);
+            }
+            WorldSeed.getSisterSeeds(structureSeed).asStream().boxed().limit(1000)
+                    .forEach(worldseed -> {
+                        BiomeSource obs = BiomeSource.of(Dimension.OVERWORLD, version, structureSeed);
+                        
+                        System.out.println(worldseed);
+                    }
     }
+        }
+
+        
 }
